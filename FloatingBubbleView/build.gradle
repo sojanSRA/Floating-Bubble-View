@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id ("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // Sojan Submodules miserable : this version should match the Kotlin version of main project. S
 
 //    id 'maven-publish'
     id 'com.vanniktech.maven.publish'
