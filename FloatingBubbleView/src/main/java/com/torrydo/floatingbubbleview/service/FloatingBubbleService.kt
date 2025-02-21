@@ -1,8 +1,10 @@
 package com.torrydo.floatingbubbleview.service
 
+import android.accessibilityservice.AccessibilityService
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.view.accessibility.AccessibilityEvent
 import com.torrydo.floatingbubbleview.canDrawOverlays
 import com.torrydo.floatingbubbleview.helper.NotificationHelper
 import com.torrydo.floatingbubbleview.service.expandable.BubbleBuilder
@@ -10,7 +12,7 @@ import com.torrydo.floatingbubbleview.service.expandable.ExpandedBubbleBuilder
 import com.torrydo.floatingbubbleview.sez
 
 
-abstract class FloatingBubbleService : Service() {
+abstract class FloatingBubbleService : AccessibilityService() {
 
     open fun startNotificationForeground() {
         val noti = NotificationHelper(this)
@@ -18,7 +20,10 @@ abstract class FloatingBubbleService : Service() {
         startForeground(noti.notificationId, noti.defaultNotification())
     }
 
-    override fun onBind(intent: Intent?): IBinder? = null
+    // override fun onBind(intent: Intent?): IBinder? = null
+    override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        handleAccessibilityEvent(event)
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -37,8 +42,11 @@ abstract class FloatingBubbleService : Service() {
 
     abstract fun removeAll()
 
+    abstract fun handleAccessibilityEvent(event: AccessibilityEvent?)
+
     override fun onDestroy() {
         removeAll()
         super.onDestroy()
     }
+
 }
