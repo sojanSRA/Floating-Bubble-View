@@ -21,7 +21,7 @@ abstract class FloatingBubbleService : AccessibilityService() {
     }
 
     // override fun onBind(intent: Intent?): IBinder? = null
-    override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+    override fun onAccessibilityEvent(event: AccessibilityEvent) {
         handleAccessibilityEvent(event)
     }
 
@@ -42,7 +42,7 @@ abstract class FloatingBubbleService : AccessibilityService() {
 
     abstract fun removeAll()
 
-    abstract fun handleAccessibilityEvent(event: AccessibilityEvent?)
+    abstract fun handleAccessibilityEvent(event: AccessibilityEvent)
 
     override fun onDestroy() {
         removeAll()

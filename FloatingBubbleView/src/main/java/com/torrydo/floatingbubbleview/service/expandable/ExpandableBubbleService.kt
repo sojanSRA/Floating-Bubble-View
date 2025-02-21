@@ -11,6 +11,7 @@ import com.torrydo.floatingbubbleview.bubble.FloatingBottomBackground
 import com.torrydo.floatingbubbleview.bubble.FloatingBubble
 import com.torrydo.floatingbubbleview.bubble.FloatingCloseBubble
 import com.torrydo.floatingbubbleview.service.FloatingBubbleService
+import com.torrydo.floatingbubbleview.service.expandable.BubbleState.*
 import com.torrydo.floatingbubbleview.sez
 import kotlin.math.abs
 
@@ -22,7 +23,7 @@ abstract class ExpandableBubbleService : FloatingBubbleService() {
     // 0: nothing
     // 1: bubble
     // 2: expanded-bubble
-    private var state = 0
+    private var state = NOT_SHOWING
 
     var bubble: FloatingBubble? = null
         private set
@@ -42,6 +43,7 @@ abstract class ExpandableBubbleService : FloatingBubbleService() {
     ) {
 
         this._context = context
+
 
         if (bubbleBuilder != null) {
             // setup bubble ------------------------------------------------------------------------
@@ -126,21 +128,21 @@ abstract class ExpandableBubbleService : FloatingBubbleService() {
         bottomBackground?.remove()
         expandedBubble?.remove()
 
-        state = 0
+        state = NOT_SHOWING
     }
 
     fun expand() {
         expandedBubble!!.show()
         bubble?.remove()
 
-        state = 2
+        state = EXPANDED_BUBBLE_SHOWING
     }
 
     fun minimize() {
         bubble!!.show()
         expandedBubble?.remove()
 
-        state = 1
+        state = MIN_BUBBLE_SHOWING
     }
 
     fun enableBubbleDragging(b: Boolean) {
@@ -278,8 +280,9 @@ abstract class ExpandableBubbleService : FloatingBubbleService() {
         createBubbles(this, configBubble(), configExpandedBubble())
 
         when (state) {
-            1 -> minimize()
-            2 -> expand()
+            MIN_BUBBLE_SHOWING -> minimize()
+            EXPANDED_BUBBLE_SHOWING -> expand()
+            NOT_SHOWING-> {} // Do nothing
         }
 
 
@@ -297,6 +300,13 @@ abstract class ExpandableBubbleService : FloatingBubbleService() {
             }
         }
     }
-
+    fun getBubbleState(): BubbleState {
+        return state
+    }
 
 }
+ enum class BubbleState {
+     NOT_SHOWING,
+     MIN_BUBBLE_SHOWING,
+     EXPANDED_BUBBLE_SHOWING
+ }

@@ -48,6 +48,8 @@ class FloatingBubble(
 
     internal var isDraggable: Boolean = true
 
+    fun isVisible() = root.isActivated
+
     init {
         customTouch()
     }
