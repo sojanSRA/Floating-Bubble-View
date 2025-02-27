@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import com.torrydo.floatingbubbleview.canDrawOverlays
 import com.torrydo.floatingbubbleview.helper.NotificationHelper
@@ -28,9 +29,11 @@ abstract class FloatingBubbleService : AccessibilityService() {
     override fun onCreate() {
         super.onCreate()
 
-        if (canDrawOverlays().not()) {
-            throw SecurityException("Permission Denied: \"display over other app\" permission IS NOT granted!")
-        }
+//        if (canDrawOverlays().not()) {
+//            throw SecurityException("Permission Denied: \"display over other app\" permission IS NOT granted!")
+//        }
+        // Reduce to a warning. User may give this permission at a later point
+        Log.d("FloatingBubbleService", "Permission Denied: \"display over other app\" permission IS NOT granted!")
 
         sez.with(this.applicationContext)
 
